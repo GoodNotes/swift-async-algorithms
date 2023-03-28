@@ -15,6 +15,8 @@
 @_implementationOnly import Glibc
 #elseif canImport(WinSDK)
 @_implementationOnly import WinSDK
+#else
+struct NoOpLock { }
 #endif
 
 internal struct Lock {
@@ -24,6 +26,8 @@ internal struct Lock {
   typealias Primitive = pthread_mutex_t
 #elseif canImport(WinSDK)
   typealias Primitive = SRWLOCK
+#else
+  typealias Primitive = NoOpLock
 #endif
   
   typealias PlatformLock = UnsafeMutablePointer<Primitive>

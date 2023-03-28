@@ -50,8 +50,9 @@ final class TaskDriver {
   }
   
   func start() {
-    pthread_create(&thread, nil, start_thread,
-      Unmanaged.passRetained(self).toOpaque())
+#if canImport(Darwin) || canImport(Glibc)
+     pthread_create(&thread, nil, start_thread, Unmanaged.passRetained(self).toOpaque())
+#endif
   }
   
   func run() {
